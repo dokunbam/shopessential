@@ -1,0 +1,83 @@
+﻿@model IEnumerable<PosWeb.Models.Sale>
+
+@{
+    ViewData["Title"] = "Sales Index";
+}
+
+<h1>Sales Transactions</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Transactions </a>
+</p>
+<table class="table table-striped">
+    <thead class="bg-primary text-white">
+        <tr>
+            <th>
+                <span>Transation Id</span>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.ProductName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.QuantityPurchased)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TotalAmountPaid)*@
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Balance)*@
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityPurchased)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+
+            <td>
+                @*@Html.DisplayFor(modelItem => item.TotalAmountPaid)*@
+            </td>
+
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Balance)*@
+            </td>
+
+            <td>
+                @*<a class="btn btn-outline-warning btn-sm" asp-action="Edit" asp-route-id="@item.SaleId">Edit</a>*@
+                <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.SaleId">Details</a> 
+                @*<a class="btn btn-outline-danger btn-sm"  asp-action="Delete" asp-route-id="@item.SaleId">Delete</a>*@
+
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

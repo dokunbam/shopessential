@@ -1,0 +1,66 @@
+﻿@model IEnumerable<PosWeb.Models.SalesOutput>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Transaction Summary</h1>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+<table class="table table-striped">
+    <thead class="bg-primary text-white">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionId)
+            </th>
+            <th>
+                <span>Customer</span>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmountDue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmountPaid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomersName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmountDue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmountPaid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalesDate)
+            </td>
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.SalesOutputId">Edit</a> |*@
+                <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.TransactionId">Details</a>
+                @*<a asp-action="Delete" asp-route-id="@item.SalesOutputId">Delete</a>*@
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

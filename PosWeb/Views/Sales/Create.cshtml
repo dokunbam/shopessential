@@ -1,0 +1,181 @@
+﻿@model PosWeb.Models.Sale;
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<div class="container">
+    <form class="needs-validation" novalidate asp-action="Create">
+    <!--<form method="post">-->
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Sale</h4>
+        </div>
+
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <div class="form-group pm-4">
+                <label Name="transaction" class="control-label">Transaction Id</label>
+                <p input type="number" class="form-control" id="transactionId" ></p>
+            </div>
+
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label Name="User" class="control-label">Staff</label>
+                <input asp-for="StaffName" class="form-control" id="staff" readonly value="@User.Identity.Name" />
+            </div>
+
+            <!--<div asp-validation-summary="ModelOnly" class="text-danger"></div>-->
+            <div class="form-group">
+                <label class="control-label">Customer</label>
+                <select class="form-control" id="customer" asp-items="ViewBag.CustomerId">
+                    <option value="">--Select Customer Name--</option>
+                </select>
+            </div>
+            <!--This is to select category-->
+            <div class="form-group">
+                <label class="control-label">Select Category</label>
+                <select onchange="SelectCategory()" class="form-control" id="SelectCategories" asp-items="ViewBag.CategoryId">
+                    <option value="">--Select Category--</option>
+                </select>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TotalPrice" class="control-label">Total</label>
+                <p asp-for="Quantity" class="form-control" id="subTotalField" required></p>
+            </div>
+ 
+                    <div class="form-group">
+                        <label class="control-label"> Total Due</label>
+                        <p input type="text" class="form-control" id="grandTotalField" required></p>
+                        <span class="text-danger"></span>
+                    </div>
+               
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label class="control-label">Product</label>
+                    <Select asp-for="productId" class="form-control" onchange="GetPrice()" id="productField" asp-items="ViewBag.ProductId">
+                        <option value="">--Select Product--</option>
+                    </Select>
+                    <span asp-validation-for="productId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Price</label>
+                    <p input asp-for="Price" class="form-control" id="priceField" required></p>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Quantity</label>
+                    <input asp-for="QuantityPurchased" class="form-control" id="quantity" required />
+                    <span asp-validation-for="QuantityPurchased" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pt-4">
+                    <input onclick="AddProduct()" value="Add Product" class="btn btn-primary" />
+                </div>
+            </div>
+
+        </div>
+     </form>
+</div>
+
+
+<div class="container">
+    <!--<form asp-action="">-->
+ 
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Amount Paid</label>
+                <input class="form-control" id="amountDueField" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Balance</label>
+                <p input class="form-control bg-warning" id="balanceField"></p>
+                <span class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-3 p-4" >
+            <div class="form-group">
+                <input onclick="createSales()" value="Buy" class="btn btn-success"/>
+            </div>
+        </div>
+   
+
+    </div>
+    <!--  </form>-->
+    </div>
+
+
+    <!-- products Table -->
+    <table class="table" id="salesTable">
+        <thead class="bg-primary text-white">
+            <tr>
+                <th scope="col">Transaction ID</th>
+                <th scope="col">Customer</th>
+                <th scope="col"></th>
+                <th scope="col">Products</th>
+                <th scope="col"></th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody id="productsDisplayTable"></tbody>
+    </table>
+
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    }
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('onclick', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+
+

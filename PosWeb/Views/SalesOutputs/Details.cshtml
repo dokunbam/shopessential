@@ -1,0 +1,88 @@
+﻿@model PosWeb.Models.SalesOutput
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>SalesOutput</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CustomersName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CustomersName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TransactionId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TransactionId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalAmountDue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalAmountDue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalAmountPaid)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalAmountPaid)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SalesDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SalesDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TransactionStaff)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TransactionStaff)
+        </dd>
+
+    </dl>
+    <div class="transactionId">
+        <table class="table" id="detailsTable">
+            <thead class="bg-primary text-white">
+
+
+                <tr>
+                    <th scope="col">Products</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            @foreach (var details in (List<Sale>)ViewData["SalesDetails"])
+            {
+
+                <tr>
+                    <th>@details.ProductName</th>
+                    <td>@details.Price</td>
+                    <td>@details.QuantityPurchased</td>
+                    <td>@details.TotalPrice</td>
+                </tr>
+
+
+            }
+
+        </table>
+    </div>
+</div>
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model.SalesOutputId">Edit</a> |*@
+    <a asp-action="Index">Back to List</a>
+</div>

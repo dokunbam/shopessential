@@ -1,0 +1,66 @@
+﻿@model IEnumerable<PosWeb.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Available Products</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Product</a>
+</p>
+<table class="table table-striped">
+    <thead class="bg-primary text-white">
+        <tr>
+            <th>
+                <h6>S/N</h6>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                <a class="btn btn-outline-warning btn-sm" asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> 
+                <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.ProductId">Details</a> 
+                <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
