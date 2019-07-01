@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,16 +16,20 @@ namespace PosWeb.Controllers
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var customer = _context.Customers.Where(m => m.ApplicationUserId == currentUser.Id);
+            return View(await customer.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -56,10 +61,16 @@ namespace PosWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,phonenumber,email,state")] Customer customer)
+        public async Task<IActionResult> Create([Bind("ID,StoreId,ApplicationUserId,Name,phonenumber,email,state")] Customer customer)
         {
             if (ModelState.IsValid)
             {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var store = _context.Stores.FirstOrDefault(m => m.ApplicationUserId == currentUser.Id);
+                //var applicationId = _context.Stores.FirstOrDefaultAsync(m=>m.ApplicationUserId == )
+
+                customer.StoreId = store.Id;
+                customer.ApplicationUserId = currentUser.Id;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -302,6 +302,7 @@ function createSales() {
     }); 
 }
 
+
 function Remove(button) {
     //Determine the reference of the Row using the Button.
     var row = $(button).closest("tr");

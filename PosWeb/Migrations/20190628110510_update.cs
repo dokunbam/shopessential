@@ -2,21 +2,21 @@
 
 namespace PosWeb.Migrations
 {
-    public partial class AddCustomerNameToSalesOutput : Migration
+    public partial class update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "CustomersName",
-                table: "GetSalesOutputs",
+                name: "StoreName",
+                table: "AspNetUsers",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "CustomersName",
-                table: "GetSalesOutputs");
+                name: "StoreName",
+                table: "AspNetUsers");
         }
     }
 }

@@ -10,6 +10,8 @@ namespace PosWeb.Models
         public int SalesOutputId { get; set; }
         //public int SaleId { get; set; }
         public int TransactionId { get; set; }
+        public int StoreId { get; set; }
+        public string ApplicationUserId { get; set; }
         public string CustomersName { get; set; }
         public decimal TotalAmountDue { get; set; }
         public decimal TotalAmountPaid { get; set; }

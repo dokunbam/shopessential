@@ -7,7 +7,7 @@ using PosWeb.Models;
 
 namespace PosWeb.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -21,6 +21,9 @@ namespace PosWeb.Data
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SalesOutput> GetSalesOutputs { get; set; }
         public DbSet<SalesDetails> SalesDetails { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<SubStore> SubStores { get; set; }
+        public DbSet<Staff> Staff{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,6 +9,8 @@ namespace PosWeb.Models
     {
         public int StaffId { get; set; }
         public string Name { get; set; }
+        public int StoreId { get; set; }
+        public string ApplicationUserId { get; set; }
         public string StaffEmail { get; set; }
         public string Username { get; set; }
         public string password { get; set; }

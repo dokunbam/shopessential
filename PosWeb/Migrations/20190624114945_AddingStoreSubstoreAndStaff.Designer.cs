@@ -10,8 +10,8 @@ using PosWeb.Data;
 namespace PosWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190529201242_AddfieldstoSalesOutput")]
-    partial class AddfieldstoSalesOutput
+    [Migration("20190624114945_AddingStoreSubstoreAndStaff")]
+    partial class AddingStoreSubstoreAndStaff
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,30 +20,6 @@ namespace PosWeb.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -63,57 +39,6 @@ namespace PosWeb.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -186,6 +111,89 @@ namespace PosWeb.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("PosWeb.Models.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("PosWeb.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<int?>("SalesSaleId");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("SalesSaleId");
+
+                    b.ToTable("AspNetUsers");
+                });
+
             modelBuilder.Entity("PosWeb.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -249,9 +257,15 @@ namespace PosWeb.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CategoryId");
+
                     b.Property<int>("CustomerId");
 
+                    b.Property<string>("CustomerName");
+
                     b.Property<decimal>("Price");
+
+                    b.Property<string>("ProductName");
 
                     b.Property<int>("QuantityPurchased");
 
@@ -261,6 +275,8 @@ namespace PosWeb.Migrations
 
                     b.Property<string>("StaffName");
 
+                    b.Property<int?>("StoreId");
+
                     b.Property<decimal>("TotalPrice");
 
                     b.Property<int>("TransactionId");
@@ -269,9 +285,13 @@ namespace PosWeb.Migrations
 
                     b.HasKey("SaleId");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("SalesOutputId");
+
+                    b.HasIndex("StoreId");
 
                     b.HasIndex("productId");
 
@@ -301,6 +321,8 @@ namespace PosWeb.Migrations
 
                     b.Property<decimal>("Balance");
 
+                    b.Property<string>("CustomersName");
+
                     b.Property<int?>("SaleId");
 
                     b.Property<DateTime>("SalesDate");
@@ -324,9 +346,82 @@ namespace PosWeb.Migrations
                     b.ToTable("GetSalesOutputs");
                 });
 
+            modelBuilder.Entity("PosWeb.Models.Staff", b =>
+                {
+                    b.Property<int>("StaffId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("StaffEmail");
+
+                    b.Property<int?>("SubStoreId");
+
+                    b.Property<string>("Username");
+
+                    b.Property<string>("password");
+
+                    b.HasKey("StaffId");
+
+                    b.HasIndex("SubStoreId");
+
+                    b.ToTable("Staff");
+                });
+
+            modelBuilder.Entity("PosWeb.Models.Store", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<int>("SalesId");
+
+                    b.Property<string>("StoreName");
+
+                    b.Property<int>("SubStoreId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stores");
+                });
+
+            modelBuilder.Entity("PosWeb.Models.SubStore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<int>("StaffId");
+
+                    b.Property<int?>("StoreId");
+
+                    b.Property<string>("SubStoreName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("SubStores");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("PosWeb.Models.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -334,7 +429,7 @@ namespace PosWeb.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("PosWeb.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -342,7 +437,7 @@ namespace PosWeb.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("PosWeb.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -350,12 +445,12 @@ namespace PosWeb.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("PosWeb.Models.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("PosWeb.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -363,10 +458,17 @@ namespace PosWeb.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("PosWeb.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PosWeb.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("PosWeb.Models.Sale", "Sales")
+                        .WithMany()
+                        .HasForeignKey("SalesSaleId");
                 });
 
             modelBuilder.Entity("PosWeb.Models.Product", b =>
@@ -379,6 +481,10 @@ namespace PosWeb.Migrations
 
             modelBuilder.Entity("PosWeb.Models.Sale", b =>
                 {
+                    b.HasOne("PosWeb.Models.Category")
+                        .WithMany("Sales")
+                        .HasForeignKey("CategoryId");
+
                     b.HasOne("PosWeb.Models.Customer", "Customer")
                         .WithMany("Sale")
                         .HasForeignKey("CustomerId")
@@ -388,8 +494,12 @@ namespace PosWeb.Migrations
                         .WithMany("Sales")
                         .HasForeignKey("SalesOutputId");
 
+                    b.HasOne("PosWeb.Models.Store")
+                        .WithMany("Sale")
+                        .HasForeignKey("StoreId");
+
                     b.HasOne("PosWeb.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Sales")
                         .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -411,6 +521,20 @@ namespace PosWeb.Migrations
                     b.HasOne("PosWeb.Models.SalesDetails")
                         .WithMany("Sales")
                         .HasForeignKey("SalesDetailsID");
+                });
+
+            modelBuilder.Entity("PosWeb.Models.Staff", b =>
+                {
+                    b.HasOne("PosWeb.Models.SubStore")
+                        .WithMany("Staffs")
+                        .HasForeignKey("SubStoreId");
+                });
+
+            modelBuilder.Entity("PosWeb.Models.SubStore", b =>
+                {
+                    b.HasOne("PosWeb.Models.Store")
+                        .WithMany("SubStores")
+                        .HasForeignKey("StoreId");
                 });
 #pragma warning restore 612, 618
         }
