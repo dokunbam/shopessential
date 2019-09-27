@@ -4,9 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Sales Details</h1>
+<div class="row">
 
-<p>
+    <div class="col-md-2">
+        <partial name="StoreNav" />
+    </div>
+    <div class="col-md-10">
+        <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -33,3 +38,7 @@
 }
     </tbody>
 </table>
+
+    </div>
+</div>
+
