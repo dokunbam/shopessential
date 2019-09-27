@@ -15,7 +15,7 @@ namespace PosWeb.Models
         public string ApplicationUserId { get; set; }
         public string CategoryName { get; set; }
         public string Description { get; set; }
-        public Store Stores { get; set; }
+        //public Store Stores { get; set; }
 
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUsers { get; set; }
