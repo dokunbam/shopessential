@@ -40,6 +40,15 @@ namespace PosWeb.Controllers
                 return NotFound();
             }
 
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            var category = await _context.Customers.FindAsync(id);
+
+            if(category.ApplicationUserId != currentUser.Id) 
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             var customer = await _context.Customers
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (customer == null)
