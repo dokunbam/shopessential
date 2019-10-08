@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,16 @@ namespace PosWeb.Controllers
     [Authorize]
     public class SalesController : Controller
     {
+       
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
 
-        public SalesController(ApplicationDbContext context)
+        public SalesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // GET: Sales
@@ -51,6 +57,8 @@ namespace PosWeb.Controllers
         [AllowAnonymous]
         public JsonResult GetCategory([FromBody] ProductPrice category)
         {
+           
+
             var result = _context.Products.Where(p => p.CategoryId == category.CategoryID).ToList();
             return Json(result);
         }
@@ -66,14 +74,20 @@ namespace PosWeb.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult AddProduct([FromBody]List<Sale> sales)
+        public async Task<IActionResult> AddProduct([FromBody]List<Sale> sales)
         {
             if (ModelState.IsValid)
             {
+                var currentUser = await _userManager .GetUserAsync(HttpContext.User);
+                var store = _context.Stores.FirstOrDefault(m => m.ApplicationUserId == currentUser.Id);
+
                 foreach (Sale sale in sales)
                 {
+                    sale.StoreId = store.Id;
+                    sale.ApplicationUserId = currentUser.Id;
                     _context.Sales.Add(sale);
                 }
+       
             }
             var status = _context.SaveChanges();
             return Json(status);
@@ -92,9 +106,18 @@ namespace PosWeb.Controllers
         // GET: Sales/Create
         public IActionResult Create()
         {
+            var currentUser = _userManager.GetUserAsync(HttpContext.User);
+            //var store = _context.Stores.FirstOrDefault(m => m.ApplicationUserId == currentUser.Id);
+           // var result = _context.Products.Where(p => p.CategoryId == currentUser.Id).ToList();
+
             ViewData["CustomerId"] = new SelectList(_context.Customers, "ID", "Name");
+
+
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductName");
+
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            //ViewData["CategoryId"] = new SelectList(_context.Categories.Where(p =>p.CategoryId == currentUser.Id) , "CategoryId", "CategoryName");
+
             return View();
         }
 

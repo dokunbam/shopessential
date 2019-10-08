@@ -94,6 +94,12 @@ namespace PosWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var store = _context.Stores.FirstOrDefault(m => m.ApplicationUserId == currentUser.Id);
+
+                product.StoreId = store.Id;
+                product.ApplicationUserId = currentUser.Id;
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -191,12 +191,12 @@ function createSales() {
     today = new Date();
     var dd = today.getDate();
 
-    //Create an empty are of sales
+    //Create an empty array of sales
     var sales = new Array();
 
     //get items from the table, create a new object and push to array
     $("#salesTable tbody tr").each(function () {
-        var row = $(this);
+        var row = $(this); 
         var ListSales = {};
         ListSales.TransactionId = row.find("td").eq(0).html();
         ListSales.CustomerName = row.find("td").eq(1).html();
@@ -206,12 +206,15 @@ function createSales() {
         ListSales.Price = row.find("td").eq(5).html();
         ListSales.QuantityPurchased = row.find("td").eq(6).html();
         ListSales.TotalPrice = row.find("td").eq(7).html();
+        debugger
 
         sales.push(ListSales);
     });
        
     //send data to controller
     var url = "/Sales/AddProduct"
+    debugger
+
     $.ajax({
         type: "Post",
         url: url,
@@ -219,10 +222,11 @@ function createSales() {
         contentType: "application/json; charset=utf - 8",
         dataType: "json",
         success: function (result) {
-            alert(result + "Record added");
+            debugger
+            alert(result + "Record added to Sales Model Table");
         },
         error: function (err) {
-             alert(err);
+             alert(err +"Something went wrong. Sales not added" );
         }
     });
 
@@ -268,10 +272,12 @@ function createSales() {
         contentType: "application/json; charset=utf - 8",
         dataType: "json",
         success: function (result) {
-            alert(result + "Record added");
+            debugger
+
+            alert(result + "Transaction record added to sales Output details ");
         },
         error: function (err) {
-            alert(err);
+            alert(err + "Something is wrong transaction is not added to sales Output details ");
         }
     });
 
@@ -286,7 +292,7 @@ function createSales() {
         productsQuantity.push(productsQuantityObj);
     });
     var url = "/Products/UpdateProductLevel"
-    debugger
+
     $.ajax({
         type: "Post",
         url: url,
@@ -294,10 +300,10 @@ function createSales() {
         contentType: "application/json; charset=utf - 8",
         dataType: "json",
         success: function (result) {
-            alert(result + "Record added");
+            alert(result + "product level updated");
         },
         error: function (err) {
-            alert(err);
+            alert(err + "SOMETHING IS WRONG, product level not updated");
         }
     }); 
 }
