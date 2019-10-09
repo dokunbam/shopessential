@@ -101,22 +101,26 @@ namespace PosWeb.Controllers
         //       // _context.Products.Select(p => p.Quantity - item);
         //    }
         //}
-       
+
 
         // GET: Sales/Create
-        public IActionResult Create()
+        /// <summary>
+        /// / public async Task<IActionResult> AddProduct([FromBody]List<Sale> sales)
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> Create()
         {
-            var currentUser = _userManager.GetUserAsync(HttpContext.User);
-            //var store = _context.Stores.FirstOrDefault(m => m.ApplicationUserId == currentUser.Id);
-           // var result = _context.Products.Where(p => p.CategoryId == currentUser.Id).ToList();
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
 
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "ID", "Name");
+            string userId = currentUser.Id.ToString();
+            ViewData["CustomerId"] = new SelectList(_context.Customers.Where(c => c.ApplicationUserId == userId), "ID", "Name");
 
+            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(p => p.ApplicationUserId == userId), "CategoryId", "CategoryName");
 
-            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductName");
+            ViewData["ProductId"] = new SelectList(_context.Products.Where(p => p.ApplicationUserId == userId), "ProductId", "ProductName");
 
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-            //ViewData["CategoryId"] = new SelectList(_context.Categories.Where(p =>p.CategoryId == currentUser.Id) , "CategoryId", "CategoryName");
+            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            //ViewData["CategoryId"] = new SelectList(_context.Categories.Where(p =>p.StoreId == currentUser.Id) , "CategoryId", "CategoryName");
 
             return View();
         }
