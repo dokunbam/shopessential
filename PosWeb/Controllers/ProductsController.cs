@@ -29,7 +29,7 @@ namespace PosWeb.Controllers
         {
             //Get current logged in user
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var applicationDbContext = _context.Products.Where(m => m.ApplicationUserId == currentUser.Id);
+            var applicationDbContext = _context.Products.Where(m => m.ApplicationUserId == currentUser.Id).Include(c => c.Category);
            // var applicationDbContext = _context.Products.Include(p => p.Category);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -78,10 +78,15 @@ namespace PosWeb.Controllers
         }
 
         // GET: Products/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            var userId = currentUser.Id.ToString();
+
+
             //ViewData["CategoryName"] = new SelectList(_context.Categories, "CategoryName", "CategoryName");
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.ApplicationUserId == userId) , "CategoryId", "CategoryName");
             return View();
         }
 
